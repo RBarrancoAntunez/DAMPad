@@ -24,7 +24,6 @@ namespace Practica9
 
             setNewFile();
             FillFontComboBox(cbFonts);
-            FillSizesComboBox(cbFontSize);
         }
 
         private void Notepad_FormClosing(object sender, FormClosingEventArgs e)
@@ -47,19 +46,6 @@ namespace Practica9
             }
         }
 
-        public void FillSizesComboBox(ComboBox comboboxSizes)
-        {
-            int index = 0;
-            for (int i = 2; i <= 40; i += 2)
-            {
-                comboboxSizes.Items.Add(i);
-                if (i == 14)
-                {
-                    index = comboboxSizes.Items.Count - 1;
-                }
-            }
-            comboboxSizes.SelectedIndex = index;
-        }
 
         public void FillFontComboBox(ComboBox comboBoxFonts)
         {
@@ -271,5 +257,9 @@ namespace Practica9
             return null;
         }
 
+        private void ChangeFontStyle(RichTextBox rtb, FontFamily? family, Size? size, FontStyle? style)
+        {
+
+        }
     }
 }

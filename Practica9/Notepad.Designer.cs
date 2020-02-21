@@ -45,7 +45,6 @@
             this.btnCut = new System.Windows.Forms.Button();
             this.btnPaste = new System.Windows.Forms.Button();
             this.cbFonts = new System.Windows.Forms.ComboBox();
-            this.cbFontSize = new System.Windows.Forms.ComboBox();
             this.tabToolBox = new System.Windows.Forms.TabControl();
             this.tabFile = new System.Windows.Forms.TabPage();
             this.tabFunctions = new System.Windows.Forms.TabPage();
@@ -53,6 +52,7 @@
             this.tabStyle = new System.Windows.Forms.TabPage();
             this.tabAlign = new System.Windows.Forms.TabPage();
             this.tabAbout = new System.Windows.Forms.TabPage();
+            this.cbFontSize = new Practica9.FontSizeCombo();
             this.tabToolBox.SuspendLayout();
             this.tabFile.SuspendLayout();
             this.tabFunctions.SuspendLayout();
@@ -226,21 +226,6 @@
             this.cbFonts.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.cbFonts_DrawItem);
             this.cbFonts.SelectedIndexChanged += new System.EventHandler(this.cbFonts_SelectedIndexChanged);
             // 
-            // cbFontSize
-            // 
-            this.cbFontSize.BackColor = System.Drawing.SystemColors.Window;
-            this.cbFontSize.DropDownHeight = 140;
-            this.cbFontSize.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbFontSize.FormattingEnabled = true;
-            this.cbFontSize.IntegralHeight = false;
-            this.cbFontSize.Location = new System.Drawing.Point(362, 6);
-            this.cbFontSize.Name = "cbFontSize";
-            this.cbFontSize.Size = new System.Drawing.Size(91, 39);
-            this.cbFontSize.TabIndex = 1;
-            this.ttTexts.SetToolTip(this.cbFontSize, "Tamaño de fuente");
-            this.cbFontSize.SelectedIndexChanged += new System.EventHandler(this.cbFontSize_SelectedIndexChanged);
-            this.cbFontSize.TextChanged += new System.EventHandler(this.cbFontSize_TextChanged);
-            // 
             // tabToolBox
             // 
             this.tabToolBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -329,6 +314,40 @@
             this.tabAbout.Text = "Acerca de";
             this.tabAbout.UseVisualStyleBackColor = true;
             // 
+            // cbFontSize
+            // 
+            this.cbFontSize.DropDownHeight = 140;
+            this.cbFontSize.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbFontSize.FormattingEnabled = true;
+            this.cbFontSize.IntegralHeight = false;
+            this.cbFontSize.Items.AddRange(new object[] {
+            2,
+            4,
+            6,
+            8,
+            10,
+            12,
+            14,
+            16,
+            18,
+            20,
+            22,
+            24,
+            26,
+            28,
+            30,
+            32,
+            34,
+            36,
+            38,
+            40});
+            this.cbFontSize.Location = new System.Drawing.Point(362, 6);
+            this.cbFontSize.Name = "cbFontSize";
+            this.cbFontSize.Size = new System.Drawing.Size(85, 39);
+            this.cbFontSize.TabIndex = 3;
+            this.cbFontSize.SelectedIndexChanged += new System.EventHandler(this.cbFontSize_SelectedIndexChanged);
+            this.cbFontSize.TextChanged += new System.EventHandler(this.cbFontSize_TextChanged);
+            // 
             // Notepad
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -374,8 +393,8 @@
         private System.Windows.Forms.Button btnRightAlign;
         private System.Windows.Forms.Button btnCenterAlign;
         private System.Windows.Forms.Button btnLeftAlign;
-        private System.Windows.Forms.ComboBox cbFontSize;
         private System.Windows.Forms.ComboBox cbFonts;
         private System.Windows.Forms.TabPage tabAbout;
+        private FontSizeCombo cbFontSize;
     }
 }
