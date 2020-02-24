@@ -52,6 +52,7 @@
             this.tabStyle = new System.Windows.Forms.TabPage();
             this.tabAlign = new System.Windows.Forms.TabPage();
             this.tabAbout = new System.Windows.Forms.TabPage();
+            this.btnExit = new System.Windows.Forms.Button();
             this.cbFontSize = new Practica9.FontSizeCombo();
             this.tabToolBox.SuspendLayout();
             this.tabFile.SuspendLayout();
@@ -246,6 +247,7 @@
             // 
             // tabFile
             // 
+            this.tabFile.Controls.Add(this.btnExit);
             this.tabFile.Controls.Add(this.btnSave);
             this.tabFile.Controls.Add(this.btnNew);
             this.tabFile.Location = new System.Drawing.Point(4, 22);
@@ -314,12 +316,26 @@
             this.tabAbout.Text = "Acerca de";
             this.tabAbout.UseVisualStyleBackColor = true;
             // 
+            // btnExit
+            // 
+            this.btnExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnExit.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnExit.BackgroundImage")));
+            this.btnExit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnExit.Location = new System.Drawing.Point(751, 6);
+            this.btnExit.Name = "btnExit";
+            this.btnExit.Size = new System.Drawing.Size(32, 40);
+            this.btnExit.TabIndex = 3;
+            this.ttTexts.SetToolTip(this.btnExit, "Salir");
+            this.btnExit.UseVisualStyleBackColor = true;
+            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
+            // 
             // cbFontSize
             // 
             this.cbFontSize.DropDownHeight = 140;
             this.cbFontSize.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbFontSize.FormattingEnabled = true;
             this.cbFontSize.IntegralHeight = false;
+            this.cbFontSize.ItemHeight = 31;
             this.cbFontSize.Items.AddRange(new object[] {
             2,
             4,
@@ -396,5 +412,6 @@
         private System.Windows.Forms.ComboBox cbFonts;
         private System.Windows.Forms.TabPage tabAbout;
         private FontSizeCombo cbFontSize;
+        private System.Windows.Forms.Button btnExit;
     }
 }

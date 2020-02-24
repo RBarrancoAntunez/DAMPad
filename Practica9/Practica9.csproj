@@ -68,6 +68,7 @@
     <Compile Include="Notepad.Designer.cs">
       <DependentUpon>Notepad.cs</DependentUpon>
     </Compile>
+    <Compile Include="RTBSelectionChange.cs" />
     <Compile Include="Splash.cs">
       <SubType>Form</SubType>
     </Compile>

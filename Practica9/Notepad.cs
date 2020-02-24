@@ -24,15 +24,16 @@ namespace Practica9
 
             setNewFile();
             FillFontComboBox(cbFonts);
+            cbFontSize.SelectedIndex = cbFontSize.FindStringExact("14");
         }
 
         private void Notepad_FormClosing(object sender, FormClosingEventArgs e)
         {
-            //TODO: Bug. Pregunta dos veces si se quiere salir
             if (modified)
             {
                 if (ExitWithoutSaving() == DialogResult.Yes)
                 {
+                    modified = false;
                     Application.Exit();
                 }
                 else
@@ -133,7 +134,7 @@ namespace Practica9
 
         private void btnBold_Click(object sender, EventArgs e)
         {
-            changeSelectedStyle(FontStyle.Bold);
+            ChangeStyle(rtbPad, null, null, FontStyle.Bold);
             rtbPad.Select();
         }
 
@@ -169,15 +170,14 @@ namespace Practica9
         private void btnItalic_Click(object sender, EventArgs e)
         {
 
-            changeSelectedStyle(FontStyle.Italic);
+            ChangeStyle(rtbPad, null, null, FontStyle.Italic);
             
             rtbPad.Select();
         }
 
         private void btnUnderlined_Click(object sender, EventArgs e)
         {
-
-            changeSelectedStyle(FontStyle.Underline);
+            ChangeStyle(rtbPad, null, null, FontStyle.Underline);
            
             rtbPad.Select();
         }
@@ -195,55 +195,35 @@ namespace Practica9
         private void cbFonts_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Cambiar la fuente del texto seleccionado
-            changeSelectedFont(cbFonts, cbFontSize);
+            FontFamily f = (FontFamily)cbFonts.SelectedItem;
+            ChangeStyle(rtbPad, f.Name, null, null);
+            //changeSelectedFont(cbFonts, cbFontSize);
             rtbPad.Select();
         }
 
         private void cbFontSize_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Cambiar el tamaño de la fuente seleccionada
-            changeSelectedFont(cbFonts, cbFontSize);
+            bool rightSize = float.TryParse(cbFontSize.Text, out float fontSize);
+            if (rightSize)
+            {
+                ChangeStyle(rtbPad, null, fontSize, null);
+            }
+            
             rtbPad.Select();
         }
 
         private void cbFontSize_TextChanged(object sender, EventArgs e)
         {
             // Cambiar el tamaño de la fuente seleccionada
-            changeSelectedFont(cbFonts, cbFontSize);
-        }
-
-        private void changeSelectedFont(ComboBox familyCombo, ComboBox sizeCombo)
-        {
-            FontStyle style;
-            if (rtbPad.SelectionFont == null)
-            {
-                style = new FontStyle();
-            }
-            else
-            {
-                style = rtbPad.SelectionFont.Style;
-            }
-
-            bool rightSize = float.TryParse(sizeCombo.Text, out float fontSize);
+            bool rightSize = float.TryParse(cbFontSize.Text, out float fontSize);
             if (rightSize)
             {
-                int selstart = rtbPad.SelectionStart;
-                int sellength = rtbPad.SelectionLength;
-
-                rtbPad.SelectionFont = new Font((FontFamily)familyCombo.SelectedItem, fontSize, style);
-
-                if (sellength > 0)
-                {
-                    rtbPad.SelectionStart = rtbPad.SelectionStart + rtbPad.SelectionLength;
-                    rtbPad.SelectionLength = 0;
-
-                    rtbPad.SelectionFont = rtbPad.Font;
-
-                    rtbPad.Select(selstart, sellength);
-                }
+                ChangeStyle(rtbPad, null, fontSize, null);
             }
-           
+
         }
+
 
         public FontFamily searchFontPosition(ComboBox fontsCombo, string fontName)
         {
@@ -257,9 +237,139 @@ namespace Practica9
             return null;
         }
 
-        private void ChangeFontStyle(RichTextBox rtb, FontFamily? family, Size? size, FontStyle? style)
+        private void ChangeFontStyle(RichTextBox rtb, string family, float? size, FontStyle? style)
         {
 
+            int selstart = rtb.SelectionStart;
+            int sellength = rtb.SelectionLength;
+            Font newFont = null;
+
+            if (rtb.SelectionFont != null)
+            {
+                if (!string.IsNullOrEmpty(family))
+                {
+                    newFont = new Font(family, rtb.SelectionFont.Size);
+                }
+                else if (size != null)
+                {
+                    newFont = new Font(rtb.SelectionFont.FontFamily, size ?? 1);
+                }
+                else if (style != null)
+                {
+                    newFont = new Font(rtb.SelectionFont.FontFamily, rtb.SelectionFont.Size, rtb.SelectionFont.Style ^ style ?? FontStyle.Regular);
+                }
+                rtb.SelectionFont = newFont ?? rtb.SelectionFont;
+
+                if (sellength > 0)
+                {
+                    rtb.SelectionStart = rtb.SelectionStart + rtb.SelectionLength;
+                    rtb.SelectionLength = 0;
+
+                    rtb.SelectionFont = rtb.Font;
+
+                    rtb.Select(selstart, sellength);
+                }
+            } 
+            else
+            {
+                int temporaryStart = selstart;
+                int temporaryLength;
+
+                do
+                {
+                    rtb.SelectionStart = temporaryStart;
+                    temporaryLength = 0;
+                    do
+                    {
+                        temporaryLength++;
+                        rtb.SelectionLength = temporaryLength;
+                        
+                    } while ((temporaryStart + temporaryLength <= selstart + sellength) && rtb.SelectionFont != null);
+
+                    temporaryLength--;
+                    rtb.SelectionLength = temporaryLength;
+
+                    if (!string.IsNullOrEmpty(family))
+                    {
+                        newFont = new Font(family, rtb.SelectionFont.Size);
+                    }
+                    else if (size != null)
+                    {
+                        newFont = new Font(rtb.SelectionFont.FontFamily, size ?? 1);
+                    }
+                    else if (style != null)
+                    {
+                        newFont = new Font(rtb.SelectionFont.FontFamily, rtb.SelectionFont.Size, rtb.SelectionFont.Style ^ style ?? FontStyle.Regular);
+                    }
+                    rtb.SelectionFont = newFont ?? rtb.SelectionFont;
+
+                    temporaryStart += temporaryLength;
+
+                } while (temporaryStart < selstart + sellength);
+
+                rtb.SelectionStart = selstart + sellength;
+                rtb.SelectionLength = 0;
+
+                rtb.SelectionFont = rtb.Font;
+
+                rtb.Select(selstart, sellength);
+            }
+
+
         }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+
+        private void ChangeStyle(RichTextBox rtb, string family, float? size, FontStyle? style)
+        {
+            int selstart = rtb.SelectionStart;
+            int sellength = rtb.SelectionLength;
+            int temporaryStart = selstart;
+            List<RTBSelectionChange> rtbList = new List<RTBSelectionChange>();
+
+            do
+            {
+                rtb.SelectionStart = temporaryStart;
+                int temporaryPosition = temporaryStart;
+                rtb.SelectionLength = 0;
+                RTBSelectionChange sc = new RTBSelectionChange(temporaryStart, 0, rtb.SelectionFont.FontFamily, rtb.SelectionFont.Size, rtb.SelectionFont.Style);
+                while (rtb.SelectionFont.FontFamily.Name == sc.Family.Name && rtb.SelectionFont.Size == sc.Fontsize && rtb.SelectionFont.Style == sc.Style && (temporaryPosition < selstart + sellength))
+                {
+                    temporaryPosition++;
+                    rtb.SelectionStart = temporaryPosition;
+                }
+                
+                sc.SelectionLength = (temporaryPosition - temporaryStart - 1) >= 0 ? (temporaryPosition - temporaryStart - 1) : 0;
+                rtb.SelectionStart = sc.SelectionStart;
+                rtb.SelectionLength = sc.SelectionLength;
+                if (!string.IsNullOrEmpty(family))
+                {
+                    sc.Family = new FontFamily(family);
+                }
+                sc.Fontsize = size ?? rtb.SelectionFont.Size;
+                sc.Style = style ?? rtb.SelectionFont.Style;
+                rtbList.Add(sc);
+
+                temporaryStart = temporaryPosition;
+
+            } while (temporaryStart < (selstart + sellength));
+
+            foreach (RTBSelectionChange r in rtbList)
+            {
+                r.CompleteChange(rtb);
+            }
+
+            rtb.SelectionStart = selstart + sellength;
+            rtb.SelectionLength = 0;
+
+            //rtb.SelectionFont = rtb.Font;
+
+            rtb.Select(selstart, sellength);
+        }
+
     }
 }

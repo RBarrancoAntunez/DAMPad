@@ -26,16 +26,10 @@ namespace Practica9
 
         protected void Load()
         {
-            int index = 0;
             for (int i = 2; i <= 40; i += 2)
             {
                 this.Items.Add(i);
-                if (i == 14)
-                {
-                    index = this.Items.Count - 1;
-                }
             }
-            this.SelectedIndex = index;
         }
     }
 }
