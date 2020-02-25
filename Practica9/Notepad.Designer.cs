@@ -40,11 +40,11 @@
             this.btnLeftAlign = new System.Windows.Forms.Button();
             this.btnCenterAlign = new System.Windows.Forms.Button();
             this.btnRightAlign = new System.Windows.Forms.Button();
-            this.btnJustify = new System.Windows.Forms.Button();
             this.btnCopy = new System.Windows.Forms.Button();
             this.btnCut = new System.Windows.Forms.Button();
             this.btnPaste = new System.Windows.Forms.Button();
             this.cbFonts = new System.Windows.Forms.ComboBox();
+            this.btnExit = new System.Windows.Forms.Button();
             this.tabToolBox = new System.Windows.Forms.TabControl();
             this.tabFile = new System.Windows.Forms.TabPage();
             this.tabFunctions = new System.Windows.Forms.TabPage();
@@ -52,7 +52,6 @@
             this.tabStyle = new System.Windows.Forms.TabPage();
             this.tabAlign = new System.Windows.Forms.TabPage();
             this.tabAbout = new System.Windows.Forms.TabPage();
-            this.btnExit = new System.Windows.Forms.Button();
             this.cbFontSize = new Practica9.FontSizeCombo();
             this.tabToolBox.SuspendLayout();
             this.tabFile.SuspendLayout();
@@ -145,6 +144,7 @@
             this.btnLeftAlign.TabIndex = 3;
             this.ttTexts.SetToolTip(this.btnLeftAlign, "Alineado izquierda");
             this.btnLeftAlign.UseVisualStyleBackColor = true;
+            this.btnLeftAlign.Click += new System.EventHandler(this.btnLeftAlign_Click);
             // 
             // btnCenterAlign
             // 
@@ -156,6 +156,7 @@
             this.btnCenterAlign.TabIndex = 4;
             this.ttTexts.SetToolTip(this.btnCenterAlign, "Centrado");
             this.btnCenterAlign.UseVisualStyleBackColor = true;
+            this.btnCenterAlign.Click += new System.EventHandler(this.btnCenterAlign_Click);
             // 
             // btnRightAlign
             // 
@@ -167,17 +168,7 @@
             this.btnRightAlign.TabIndex = 5;
             this.ttTexts.SetToolTip(this.btnRightAlign, "Alineado derecha");
             this.btnRightAlign.UseVisualStyleBackColor = true;
-            // 
-            // btnJustify
-            // 
-            this.btnJustify.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnJustify.BackgroundImage")));
-            this.btnJustify.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btnJustify.Location = new System.Drawing.Point(120, 6);
-            this.btnJustify.Name = "btnJustify";
-            this.btnJustify.Size = new System.Drawing.Size(32, 40);
-            this.btnJustify.TabIndex = 6;
-            this.ttTexts.SetToolTip(this.btnJustify, "Justificado");
-            this.btnJustify.UseVisualStyleBackColor = true;
+            this.btnRightAlign.Click += new System.EventHandler(this.btnRightAlign_Click);
             // 
             // btnCopy
             // 
@@ -226,6 +217,19 @@
             this.ttTexts.SetToolTip(this.cbFonts, "Fuente");
             this.cbFonts.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.cbFonts_DrawItem);
             this.cbFonts.SelectedIndexChanged += new System.EventHandler(this.cbFonts_SelectedIndexChanged);
+            // 
+            // btnExit
+            // 
+            this.btnExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnExit.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnExit.BackgroundImage")));
+            this.btnExit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnExit.Location = new System.Drawing.Point(751, 6);
+            this.btnExit.Name = "btnExit";
+            this.btnExit.Size = new System.Drawing.Size(32, 40);
+            this.btnExit.TabIndex = 3;
+            this.ttTexts.SetToolTip(this.btnExit, "Salir");
+            this.btnExit.UseVisualStyleBackColor = true;
+            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
             // tabToolBox
             // 
@@ -296,7 +300,6 @@
             // 
             // tabAlign
             // 
-            this.tabAlign.Controls.Add(this.btnJustify);
             this.tabAlign.Controls.Add(this.btnRightAlign);
             this.tabAlign.Controls.Add(this.btnCenterAlign);
             this.tabAlign.Controls.Add(this.btnLeftAlign);
@@ -315,19 +318,6 @@
             this.tabAbout.TabIndex = 5;
             this.tabAbout.Text = "Acerca de";
             this.tabAbout.UseVisualStyleBackColor = true;
-            // 
-            // btnExit
-            // 
-            this.btnExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExit.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnExit.BackgroundImage")));
-            this.btnExit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btnExit.Location = new System.Drawing.Point(751, 6);
-            this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(32, 40);
-            this.btnExit.TabIndex = 3;
-            this.ttTexts.SetToolTip(this.btnExit, "Salir");
-            this.btnExit.UseVisualStyleBackColor = true;
-            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
             // cbFontSize
             // 
@@ -405,7 +395,6 @@
         private System.Windows.Forms.Button btnPaste;
         private System.Windows.Forms.Button btnCut;
         private System.Windows.Forms.Button btnCopy;
-        private System.Windows.Forms.Button btnJustify;
         private System.Windows.Forms.Button btnRightAlign;
         private System.Windows.Forms.Button btnCenterAlign;
         private System.Windows.Forms.Button btnLeftAlign;
