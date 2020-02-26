@@ -53,6 +53,8 @@
             this.tabAlign = new System.Windows.Forms.TabPage();
             this.tabAbout = new System.Windows.Forms.TabPage();
             this.cbFontSize = new Practica9.FontSizeCombo();
+            this.btnOpen = new System.Windows.Forms.Button();
+            this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.tabToolBox.SuspendLayout();
             this.tabFile.SuspendLayout();
             this.tabFunctions.SuspendLayout();
@@ -91,12 +93,13 @@
             // 
             this.btnSave.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnSave.BackgroundImage")));
             this.btnSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btnSave.Location = new System.Drawing.Point(44, 6);
+            this.btnSave.Location = new System.Drawing.Point(82, 6);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(32, 40);
             this.btnSave.TabIndex = 2;
             this.ttTexts.SetToolTip(this.btnSave, "Guardar");
             this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnBold
             // 
@@ -180,6 +183,7 @@
             this.btnCopy.TabIndex = 2;
             this.ttTexts.SetToolTip(this.btnCopy, "Copiar");
             this.btnCopy.UseVisualStyleBackColor = true;
+            this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
             // 
             // btnCut
             // 
@@ -191,6 +195,7 @@
             this.btnCut.TabIndex = 3;
             this.ttTexts.SetToolTip(this.btnCut, "Cortar");
             this.btnCut.UseVisualStyleBackColor = true;
+            this.btnCut.Click += new System.EventHandler(this.btnCut_Click);
             // 
             // btnPaste
             // 
@@ -202,6 +207,7 @@
             this.btnPaste.TabIndex = 4;
             this.ttTexts.SetToolTip(this.btnPaste, "Pegar");
             this.btnPaste.UseVisualStyleBackColor = true;
+            this.btnPaste.Click += new System.EventHandler(this.btnPaste_Click);
             // 
             // cbFonts
             // 
@@ -251,6 +257,7 @@
             // 
             // tabFile
             // 
+            this.tabFile.Controls.Add(this.btnOpen);
             this.tabFile.Controls.Add(this.btnExit);
             this.tabFile.Controls.Add(this.btnSave);
             this.tabFile.Controls.Add(this.btnNew);
@@ -354,6 +361,24 @@
             this.cbFontSize.SelectedIndexChanged += new System.EventHandler(this.cbFontSize_SelectedIndexChanged);
             this.cbFontSize.TextChanged += new System.EventHandler(this.cbFontSize_TextChanged);
             // 
+            // btnOpen
+            // 
+            this.btnOpen.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnOpen.BackgroundImage")));
+            this.btnOpen.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnOpen.Location = new System.Drawing.Point(44, 6);
+            this.btnOpen.Name = "btnOpen";
+            this.btnOpen.Size = new System.Drawing.Size(32, 40);
+            this.btnOpen.TabIndex = 4;
+            this.ttTexts.SetToolTip(this.btnOpen, "Abrir");
+            this.btnOpen.UseVisualStyleBackColor = true;
+            this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
+            // 
+            // trayIcon
+            // 
+            this.trayIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("trayIcon.Icon")));
+            this.trayIcon.Text = "Nuevo documento";
+            this.trayIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.trayIcon_MouseDoubleClick);
+            // 
             // Notepad
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -368,6 +393,7 @@
             this.Text = "Nuevo documento";
             this.Activated += new System.EventHandler(this.Notepad_Activated);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Notepad_FormClosing);
+            this.Resize += new System.EventHandler(this.Notepad_Resize);
             this.tabToolBox.ResumeLayout(false);
             this.tabFile.ResumeLayout(false);
             this.tabFunctions.ResumeLayout(false);
@@ -402,5 +428,7 @@
         private System.Windows.Forms.TabPage tabAbout;
         private FontSizeCombo cbFontSize;
         private System.Windows.Forms.Button btnExit;
+        private System.Windows.Forms.Button btnOpen;
+        private System.Windows.Forms.NotifyIcon trayIcon;
     }
 }

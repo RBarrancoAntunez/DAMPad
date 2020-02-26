@@ -77,6 +77,14 @@ namespace Practica9
             return MessageBox.Show(body, title, buttons);
         }
 
+        public DialogResult NewWithoutSaving()
+        {
+            string body = "¿Desea guardar antes de crear un nuevo archivo?";
+            string title = "Confirmación";
+            MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+            return MessageBox.Show(body, title, buttons);
+        }
+
         private void cbFonts_DrawItem(object sender, DrawItemEventArgs e)
         {
 
@@ -117,15 +125,26 @@ namespace Practica9
         {
             if (!modified)
             {
-
-            } else
-            {
                 setNewFile();
+            } 
+            else
+            {
+                if (NewWithoutSaving() == DialogResult.Yes)
+                {
+                    saveFile();
+                    setNewFile();
+                }
+                else
+                {
+                    setNewFile();
+                }
             }
+            rtbPad.Select();
         }
 
         private void setNewFile()
         {
+            rtbPad.Clear();
             modified = false;
             fileName = "Nuevo documento.rtf";
             fullPath = "";
@@ -185,10 +204,15 @@ namespace Practica9
         private void rtbPad_SelectionChanged(object sender, EventArgs e)
         {
             // Poner en el combo la fuente adecuada y el tamaño adecuado
-            var seleccionado = rtbPad.SelectionFont;
-            if (false)
-            {
-                MessageBox.Show("Hola", "sorpresa", MessageBoxButtons.OK);
+            Font seleccionado = rtbPad.SelectionFont;
+            if (seleccionado != null)
+            { 
+                FontFamily f = searchFontPosition(cbFonts, rtbPad.SelectionFont.FontFamily.Name);
+                if (f != null)
+                {
+                    cbFonts.SelectedItem = f;
+                    cbFontSize.SelectedIndex = cbFontSize.FindStringExact(rtbPad.SelectionFont.Size.ToString());
+                }
             }
         }
 
@@ -306,17 +330,113 @@ namespace Practica9
         private void btnLeftAlign_Click(object sender, EventArgs e)
         {
             rtbPad.SelectionAlignment = HorizontalAlignment.Left;
+            rtbPad.Select();
         }
 
         private void btnRightAlign_Click(object sender, EventArgs e)
         {
             rtbPad.SelectionAlignment = HorizontalAlignment.Right;
+            rtbPad.Select();
         }
 
         private void btnCenterAlign_Click(object sender, EventArgs e)
         {
             rtbPad.SelectionAlignment = HorizontalAlignment.Center;
+            rtbPad.Select();
         }
 
+        private void btnCopy_Click(object sender, EventArgs e)
+        {
+            if (rtbPad.SelectedText.Length > 0)
+            {
+                rtbPad.Copy();
+            }
+            rtbPad.Select();
+        }
+
+        private void btnCut_Click(object sender, EventArgs e)
+        {
+            if (rtbPad.SelectedText.Length > 0)
+            {
+                rtbPad.Cut();
+            }
+            rtbPad.Select();
+        }
+
+        private void btnPaste_Click(object sender, EventArgs e)
+        {
+            rtbPad.Paste();
+            rtbPad.Select();
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            saveFile();
+        }
+
+        private void saveFile()
+        {
+            if (string.IsNullOrEmpty(fullPath))
+            {
+
+                SaveFileDialog saveDialog = new SaveFileDialog();
+                saveDialog.Filter = "Documento de texto|*.rtf";
+                saveDialog.Title = "Guarde el documento";
+                saveDialog.FilterIndex = 1;
+                saveDialog.RestoreDirectory = true;
+
+
+                if (saveDialog.ShowDialog() == DialogResult.OK && saveDialog.FileName != "")
+                {
+                    fullPath = saveDialog.FileName;
+                }
+            }
+
+            // Se repite la comprobación porque en el paso anterior puede no haberse rellenado el path del archivo
+            if (!string.IsNullOrEmpty(fullPath))
+            {
+                rtbPad.SaveFile(fullPath, RichTextBoxStreamType.RichNoOleObjs);
+                modified = false;
+                fileName = fullPath.Substring(fullPath.LastIndexOf("\\") + 1);
+                this.Text = fileName;
+            }
+            rtbPad.Select();
+        }
+
+        private void btnOpen_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openDialog = new OpenFileDialog();
+
+            openDialog.DefaultExt = "*.rtf";
+            openDialog.Filter = "Documento de texto|*.rtf";
+
+            if (openDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK &&
+               openDialog.FileName.Length > 0)
+            {
+                rtbPad.LoadFile(openDialog.FileName);
+                fullPath = openDialog.FileName;
+                modified = false;
+                fileName = fullPath.Substring(fullPath.LastIndexOf("\\") + 1);
+                this.Text = fileName;
+            }
+            rtbPad.Select();
+        }
+
+        private void Notepad_Resize(object sender, EventArgs e)
+        {
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+                trayIcon.Visible = true;
+                trayIcon.Text = "Modificando: " + fileName;
+                this.ShowInTaskbar = false;
+            }
+        }
+
+        private void trayIcon_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            this.WindowState = FormWindowState.Normal;
+            this.ShowInTaskbar = true;
+            trayIcon.Visible = false;
+        }
     }
 }
