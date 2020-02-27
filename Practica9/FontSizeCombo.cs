@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿/*
+* PRÁCTICA.............: Práctica 9.
+* NOMBRE Y APELLIDOS...: Rafael Barranco Antúnez
+* CURSO Y GRUPO........: 2º Desarrollo de Interfaces
+* TÍTULO DE LA PRÁCTICA: Editor de Textos.
+* FECHA DE ENTREGA.....: 06 de marzo de 2020
+*/
+
+using System;
 using System.Windows.Forms;
 
 namespace Practica9
@@ -15,8 +16,6 @@ namespace Practica9
         public FontSizeCombo()
         {
             InitializeComponent();
-            //Load();
-
         }
 
         protected override void OnPaint(PaintEventArgs pe)
